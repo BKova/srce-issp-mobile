@@ -1,0 +1,18 @@
+{
+  "extends": [ "airbnb/base" ],
+  "plugins": [ "import" ],
+  "settings": {
+    "import/resolver": "node"
+  },
+  "rules": {
+    "no-param-reassign": [0],
+    "no-shadow": [0],
+    "class-methods-use-this": [0],
+    "global-require": [0]
+    },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "modules": true
+    }
+  }
+}

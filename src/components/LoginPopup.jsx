@@ -3,12 +3,23 @@ import { View, Navbar, Pages, Page, ContentBlock, Button,
   List, ListItem, Views, NavCenter, ContentBlockTitle, GridRow, GridCol, Panel,
   LoginScreen, LoginScreenTitle, ListButton, ListLabel, FormLabel, FormInput, Link } from 'framework7-react';
 
-export default class LoginPopup extends Component {
+class PasswordInput extends Component {
   constructor(props) {
     super(props);
     this.state = { showPassword: false };
+    this.changeShowPasswordState = this.changeShowPasswordState.bind(this);
   }
 
+  changeShowPasswordState() {
+    this.setState(state => ({ showPassword: !state.showPassword }));
+  }
+
+  render() {
+    return (<FormInput name="password" type={this.state.showPassword ? 'text' : 'password' } placeholder="Password" />);
+  }
+}
+
+export default class LoginPopup extends Component {
   render() {
     return (
       <LoginScreen id="login-screen" opened={this.props.opened}>
@@ -24,13 +35,13 @@ export default class LoginPopup extends Component {
                 </ListItem>
                 <ListItem>
                   <FormLabel floating>Password</FormLabel>
-                  <FormInput name="password" type={this.state.showPassword ? 'text' : 'password' } placeholder="Password" />
+                  <PasswordInput ref={(ref) => { this.passInput = ref; }} />
                 </ListItem>
                 <ListItem style={{ marginTop: '3%' }}>
                   <GridRow>
                     <div style={{ width: '30%' }}>
                       <FormLabel>Show password</FormLabel>
-                      <FormInput type="switch" onChange={() => this.setState({ showPassword: !this.state.showPassword })}></FormInput>
+                      <FormInput type="switch" onChange={() => this.passInput.changeShowPasswordState()}></FormInput>
                     </div>
                     <div style={{ width: '60%' }}>
                       <Button round raised color="red" fill closeLoginScreen style={{ width: '50%', marginTop: '10%', marginLeft: '40%' }}>

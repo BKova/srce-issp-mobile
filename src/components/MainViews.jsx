@@ -15,7 +15,7 @@ export default function MainViews(props, context) {
         <Pages>
           <Page>
             {context.framework7AppContext.theme.material ? (
-              <Navbar style={{ justifyContent: 'center' }}>
+              <Navbar style={{ justifyContent: 'center' }} theme="red">
                 <NavLeft>
                   <Link icon="icon-bars" openPanel="left" />
                 </NavLeft>
@@ -23,7 +23,7 @@ export default function MainViews(props, context) {
                   SRCE ISSP
                 </NavCenter>
                 <NavRight style={{ marginRight: '4%', justifyContent: 'center' }}>
-                  <CoinsIcon fill="white"/>
+                  <CoinsIcon fill="white" viewBox="0 0 25 25" style={{ marginLeft: '5%', marginTop: '1%' }} />
                   {user.balance}
                 </NavRight>
               </Navbar>
@@ -32,13 +32,19 @@ export default function MainViews(props, context) {
               {receipts.map((receipt, index) => (
                 <ListButton link={`/details/${index}`} right>
                   <ListItemContent>
-                    <div style={{ lineHeight: '24px' }}>
-                      <Icon material="access_time"></Icon>
-                      {receipt.time}
-                    </div>
-                    <div>
-                      {receipt.price}
-                    </div>
+                    <GridCol>
+                      <GridRow>
+                        <span style={{ lineHeight: '24px', display: 'inline-block' }}>
+                          <Icon material="access_time"></Icon>
+                          {receipt.time}
+                        </span>
+                      </GridRow>
+                    </GridCol>
+                    <GridCol>
+                      <div>
+                        {receipt.price}
+                      </div>
+                    </GridCol>
                   </ListItemContent>
                 </ListButton>))}
             </List>
@@ -55,28 +61,25 @@ MainViews.contextTypes = {
 
 export const LeftPanel = (props, context) => (
   <Panel left cover layout="white">
-    <View id="left-panel-view" navbarThrough dynamicNavbar="true">
+    <View id="left-panel-view" navbarThrough dynamicNavbar="true" theme="red">
       <Pages>
         <Page>
-          {context.framework7AppContext.theme.material ?  <Navbar title="User details"></Navbar> : null}
-          <GridRow style={{ marginLeft: '13%' }}>
+          {context.framework7AppContext.theme.material ? <Navbar title="User details"></Navbar> : null}
+          <GridRow style={{ marginLeft: '5%' }}>
             <GridCol>
               <ContentBlockTitle>Name</ContentBlockTitle>
               <ContentBlock>{user.name}</ContentBlock>
             </GridCol>
-          </GridRow>
-          <GridRow style={{ marginLeft: '13%' }}>
             <GridCol>
               <ContentBlockTitle>Surname</ContentBlockTitle>
               <ContentBlock>{user.lastname}</ContentBlock>
             </GridCol>
           </GridRow>
-          <GridRow style={{ marginLeft: '13%' }}>
-            <GridCol>
-              <ContentBlockTitle>OIB</ContentBlockTitle>
-              <ContentBlock>{user.oib}</ContentBlock>
-            </GridCol>
+          <GridRow style={{ paddingLeft: '11%', justifyContent: 'left' }}>
+            <div style={{ color: 'rgba(0, 0, 0, 0.54)' }}>OIB</div>
+            <div style={{ paddingLeft: '11%' }} >{user.oib}</div>
           </GridRow>
+          <img src={user.img} style={{ width: '60%', height: 'auto', marginLeft: '20%', paddingTop: '10%' }} />
         </Page>
       </Pages>
     </View>

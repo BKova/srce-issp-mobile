@@ -15,6 +15,6 @@ export default () => (
     <Statusbar />
     <LeftPanel />
     <MainViews />
-    <LoginPopup opened={true}/>
+    <LoginPopup opened={false}/>
   </Framework7App>
 );

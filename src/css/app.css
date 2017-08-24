@@ -5,3 +5,16 @@ Your custom styles go here
   font-family: Roboto, Noto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: initial;
 }
+
+.fill {
+  background-color: transparent;
+}
+
+.inputPassword input[name=password][type=password] {
+  font-size: 32px;
+  letter-spacing: -1px;
+}
+
+.item-content.no-background > .item-inner {
+  background-image: none !important;
+}

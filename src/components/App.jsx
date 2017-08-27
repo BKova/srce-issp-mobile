@@ -4,8 +4,9 @@ import {
   Statusbar,
 } from 'framework7-react';
 
-import MainViews, { LeftPanel } from './MainViews.jsx';
-import LoginPopup from './LoginPopup.jsx';
+import Dashboard from './dashboard/dashboard.jsx';
+import LeftPanel from './dashboard/leftPanel.jsx';
+import LoginPopup from './login/loginPopup.jsx';
 
 import routes from '../routes';
 
@@ -14,7 +15,7 @@ export default () => (
   <Framework7App themeType="material" routes={routes}>
     <Statusbar />
     <LeftPanel />
-    <MainViews />
-    <LoginPopup opened={false}/>
+    <Dashboard />
+    <LoginPopup opened={true}/>
   </Framework7App>
 );

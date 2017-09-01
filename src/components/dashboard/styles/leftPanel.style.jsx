@@ -15,4 +15,9 @@ export default {
     borderColor: 'black',
     borderRadius: '100%',
   },
+  logoutButton: {
+    width: '50%',
+    marginLeft: '25%',
+    marginTop: '20%',
+  },
 };

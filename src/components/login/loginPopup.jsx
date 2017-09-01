@@ -53,7 +53,10 @@ export default class LoginPopup extends Component {
         clearCookies()
           .then(() => client.login(this.state.username, this.state.password))
           .then(() => client.getReceipts(180))
-          .then(receipts => this.props.setLogedInState(client.user, receipts))
+          .then((receipts) => {
+            this.props.setLogedInState(client.user, receipts);
+            this.setState({ loggingIn: false });
+          })
           .catch(() => {
             this.setState({ loggingIn: false });
             showFailToast();

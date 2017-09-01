@@ -8,6 +8,7 @@ import {
   GridCol,
   GridRow,
   ContentBlock,
+  Button,
   ContentBlockTitle,
 } from 'framework7-react';
 import style from './styles/leftPanel.style.jsx';
@@ -34,6 +35,9 @@ export default function LeftPanel(props, context) {
               <div style={ style.oibInfo } >{props.user.oib}</div>
             </GridRow>
             <img src={props.user.img} style={ style.userImg } />
+            <Button round raised color="red" fill onClick={props.logout} closePanel="left" style={ style.logoutButton }>
+              Logout
+            </Button>
           </Page>
         </Pages>
       </View>

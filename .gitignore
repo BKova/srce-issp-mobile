@@ -9,6 +9,13 @@
 # production
 /build
 
+# cordova platforms & plugins
+/platforms
+/plugins
+
+# react built files for production
+/www
+
 # misc
 .DS_Store
 .env

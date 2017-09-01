@@ -1,5 +1,4 @@
 export default {
-  popup: { height: '25%' },
   toolbar: { height: '5%' },
   labelsContainer: {
     marginLeft: '20px',

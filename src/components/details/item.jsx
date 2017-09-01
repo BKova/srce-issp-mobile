@@ -6,23 +6,25 @@ import {
 } from 'framework7-react';
 import ellipsize from 'ellipsize';
 
+const toCurrency = (text, currency = 'HRK') => `${text} ${currency}`;
+
 export default function Item({ item, setItem }) {
   return (
     <ListButton onClick={() => setItem(item)} openPicker>
       <ListItemContent className="no-background">
         <GridCol>
           <div>
-            {ellipsize(item.dish, 10)}
+            {ellipsize(item.name, 10)}
           </div>
         </GridCol>
         <GridCol>
           <div>
-            {item.subvention}
+            {toCurrency(item.subvention)}
           </div>
         </GridCol>
         <GridCol>
           <div>
-            {item.full}
+            {toCurrency(item.totalPrice)}
           </div>
         </GridCol>
       </ListItemContent>

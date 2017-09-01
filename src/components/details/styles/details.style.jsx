@@ -8,4 +8,7 @@ export default {
     marginLeft: '4%',
     marginRight: '4%',
   },
+  spinner: {
+    height: '10%',
+  },
 };

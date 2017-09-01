@@ -1,3 +1,4 @@
+/* global window */
 import React, { PropTypes, Component } from 'react';
 import {
   View,
@@ -13,13 +14,52 @@ import {
   FormLabel,
   FormInput,
 } from 'framework7-react';
+import SrceClient from 'srce-issp-client';
 import ShowPasswordButton from './showPasswordButton.jsx';
+import Spinner from './spinner.jsx';
 import style from './styles/loginPopup.style.jsx';
+
+const client = new SrceClient();
+const clearCookies = () =>
+  new Promise((resolve, reject) =>
+    ((window.cookieEmperor) ? window.cookieEmperor.clearAll(resolve, reject) : resolve()));
+
+const showFailToast = () => {
+  if (window.plugins) {
+    window.plugins.toast.showWithOptions({
+      message: 'Login failed',
+      duration: 'short', // which is 2000 ms. "long" is 4000. Or specify the nr of ms yourself.
+      position: 'bottom',
+    },
+    );
+  }
+};
 
 export default class LoginPopup extends Component {
   constructor(props) {
     super(props);
-    this.state = { hidePassword: true };
+    this.state = {
+      hidePassword: true,
+      loggingIn: false,
+      username: '',
+      password: '',
+    };
+    this.login = this.login.bind(this);
+  }
+
+  login() {
+    if (!this.state.loggingIn) {
+      this.setState({ loggingIn: true }, () => {
+        clearCookies()
+          .then(() => client.login(this.state.username, this.state.password))
+          .then(() => client.getReceipts(180))
+          .then(receipts => this.props.setLogedInState(client.user, receipts))
+          .catch(() => {
+            this.setState({ loggingIn: false });
+            showFailToast();
+          });
+      });
+    }
   }
 
   render() {
@@ -33,11 +73,22 @@ export default class LoginPopup extends Component {
               <List form>
                 <ListItem>
                   <FormLabel floating>Username</FormLabel>
-                  <FormInput name="username" placeholder="Username" type="text" />
+                  <FormInput
+                    name="username"
+                    placeholder="Username"
+                    type="text"
+                    onInput={val => this.setState({ username: val })}
+                  />
                 </ListItem>
                 <ListItem>
                   <FormLabel floating>Password</FormLabel>
-                  <FormInput name="password" type={this.state.hidePassword ? 'password' : 'text'} placeholder="Password" className="inputPassword" />
+                  <FormInput
+                    name="password"
+                    type={this.state.hidePassword ? 'password' : 'text'}
+                    placeholder="Password"
+                    className="inputPassword"
+                    onInput={val => this.setState({ password: val })}
+                  />
                   <ShowPasswordButton
                     hidePassword={this.state.hidePassword}
                     onClick={() => this.setState(state => ({ hidePassword: !state.hidePassword }))}
@@ -46,8 +97,8 @@ export default class LoginPopup extends Component {
                 <ListItem>
                   <GridRow>
                     <div style={ style.loginButtonContainer }>
-                      <Button round raised color="red" fill closeLoginScreen style={ style.loginButton }>
-                        Login
+                      <Button round raised color="red" fill onClick={this.login} style={ style.loginButton }>
+                        {this.state.loggingIn ? <Spinner /> : 'Login'}
                       </Button>
                     </div>
                   </GridRow>

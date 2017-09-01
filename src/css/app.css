@@ -10,10 +10,10 @@ Your custom styles go here
   background-color: transparent;
 }
 
-.inputPassword input[name=password][type=password] {
+/* .inputPassword input[name=password][type=password] {
   font-size: 32px;
   letter-spacing: -1px;
-}
+} */
 
 .item-content.no-background > .item-inner {
   background-image: none !important;

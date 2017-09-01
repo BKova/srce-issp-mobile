@@ -7,7 +7,7 @@ export default {
   },
   navRight: {
     marginRight: '4%',
-    justifyContent: 'center',
+    width: '38%',
   },
   coinsIcon: {
     marginLeft: '5%',

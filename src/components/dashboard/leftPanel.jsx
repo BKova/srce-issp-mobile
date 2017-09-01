@@ -12,8 +12,6 @@ import {
 } from 'framework7-react';
 import style from './styles/leftPanel.style.jsx';
 
-import user from '../../../resources/user.json';
-
 export default function LeftPanel(props, context) {
   return (
     <Panel left cover layout="white">
@@ -24,18 +22,18 @@ export default function LeftPanel(props, context) {
             <GridRow style={{ marginLeft: '5%' }}>
               <GridCol>
                 <ContentBlockTitle>Name</ContentBlockTitle>
-                <ContentBlock>{user.name}</ContentBlock>
+                <ContentBlock>{props.user.name}</ContentBlock>
               </GridCol>
               <GridCol>
                 <ContentBlockTitle>Surname</ContentBlockTitle>
-                <ContentBlock>{user.lastname}</ContentBlock>
+                <ContentBlock>{props.user.lastname}</ContentBlock>
               </GridCol>
             </GridRow>
             <GridRow style={ style.oibContainer }>
               <div style={ style.oibTitle}>OIB</div>
-              <div style={ style.oibInfo } >{user.oib}</div>
+              <div style={ style.oibInfo } >{props.user.oib}</div>
             </GridRow>
-            <img src={user.img} style={ style.userImg } />
+            <img src={props.user.img} style={ style.userImg } />
           </Page>
         </Pages>
       </View>

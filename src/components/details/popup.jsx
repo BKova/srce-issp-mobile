@@ -9,6 +9,8 @@ import {
 } from 'framework7-react';
 import style from './styles/popup.style.jsx';
 
+const toCurrency = (text, currency = 'HRK') => `${text} ${currency}`;
+
 export default function Popup({ item }) {
   return (
     <PickerModal style={ style.popup }>
@@ -27,13 +29,13 @@ export default function Popup({ item }) {
         </GridRow>
         <GridRow style={ style.itemInfoContainer }>
           <GridCol>
-            {item.dish}
+            {item.name}
           </GridCol>
           <GridCol>
-            {item.quantity}
+            {(item.quantity) ? item.quantity.toString() : ''}
           </GridCol>
           <GridCol>
-            {item.price}
+            {toCurrency(item.price)}
           </GridCol>
         </GridRow>
       </ContentBlock>

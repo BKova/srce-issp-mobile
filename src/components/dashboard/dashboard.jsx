@@ -16,10 +16,10 @@ import {
   ListButton,
   Link } from 'framework7-react';
 import CoinsIcon from 'mdi-react/CoinsIcon';
+import fecha from 'fecha';
 import style from './styles/dashboard.style.jsx';
 
-import receipts from '../../../resources/receipts.json';
-import user from '../../../resources/user.json';
+const toCurrency = (text, currency = 'HRK') => `${text} ${currency}`;
 
 export default function Dashboard(props, context) {
   return (
@@ -38,25 +38,25 @@ export default function Dashboard(props, context) {
                 </NavCenter>
                 <NavRight style={ style.navRight }>
                   <CoinsIcon fill="white" viewBox="0 0 25 25" style={ style.coinsIcon } />
-                  {user.balance}
+                  {toCurrency(props.user.balance)}
                 </NavRight>
               </Navbar>
             ) : null}
             <List style={ style.mealList }>
-              {receipts.map((receipt, index) => (
-                <ListButton link={`/details/${index}`} right>
+              {props.receipts.map((receipt, index) => (
+                <ListButton link={`/details/${index}`} right key={index}>
                   <ListItemContent>
                     <GridCol>
                       <GridRow>
                         <span style={ style.mealTimeInfo }>
                           <Icon material="access_time"></Icon>
-                          {receipt.time}
+                          {fecha.format(receipt.time, 'DD/MM/YYYY')}
                         </span>
                       </GridRow>
                     </GridCol>
                     <GridCol>
                       <div>
-                        {receipt.price}
+                        {toCurrency(receipt.price)}
                       </div>
                     </GridCol>
                   </ListItemContent>

@@ -1,3 +1,4 @@
+/* global window */
 import React, { Component, PropTypes } from 'react';
 import {
   Page,
@@ -10,35 +11,47 @@ import {
   ListItemContent,
   ListItem,
 } from 'framework7-react';
+import fecha from 'fecha';
+import SrceClient from 'srce-issp-client';
 import Item from './item.jsx';
 import Popup from './popup.jsx';
+import Spinner from '../login/spinner.jsx';
 import style from './styles/details.style.jsx';
 
-import receipts from '../../../resources/receipts.json';
+const toCurrency = (text, currency = 'HRK') => `${text} ${currency}`;
 
 export default class Details extends Component {
   constructor(props) {
     super(props);
-    this.state = { item: {} };
+    this.state = {
+      receipt: window.receipts[Number(this.props.index)],
+      items: [],
+      item: {},
+    };
+  }
+
+  componentDidMount() {
+    const client = new SrceClient();
+    client.getReceiptDetails(this.state.receipt)
+      .then(receipt => this.setState({ items: receipt.items }));
   }
 
   render(props) {
-    const receipt = receipts[this.props.index];
     return (
       <Page page-from-right-to-center>
         <Navbar title="Details" backLink="Back" sliding theme="red"/>
         <GridRow style={ style.mealInfoContainer }>
           <GridCol>
             <ContentBlockTitle>Restaurant</ContentBlockTitle>
-            <ContentBlock>{receipt.name}</ContentBlock>
+            <ContentBlock>{this.state.receipt.restaurant}</ContentBlock>
           </GridCol>
           <GridCol>
             <ContentBlockTitle>Time</ContentBlockTitle>
-            <ContentBlock>{receipt.time}</ContentBlock>
+            <ContentBlock>{fecha.format(this.state.receipt.time, 'DD/MM/YYYY')}</ContentBlock>
           </GridCol>
         </GridRow>
         <Popup item={this.state.item} />
-        <List style={{ marginTop: '0px', marginBottom: '0px' }}>
+        {(this.state.items.length) ? <List style={{ marginTop: '0px', marginBottom: '0px' }}>
           <ListItem style={ style.dishLabels }>
             <GridCol>
               <div>
@@ -56,10 +69,13 @@ export default class Details extends Component {
               </div>
             </GridCol>
           </ListItem>
-          {receipt.items.map(item => (
+          {this.state.items.map(item => (
             <Item item={item} setItem={item => this.setState({ item }) } />
           ))}
-        </List>
+        </List> :
+          <div style={style.spinner}>
+            <Spinner />
+          </div>}
         <List>
           <ListItem style={ style.priceInfoLabels }>
             <div>
@@ -72,12 +88,12 @@ export default class Details extends Component {
           <ListItem>
             <ListItemContent>
               <div>
-                {receipt.subvention}
+                {toCurrency(this.state.receipt.subvention)}
               </div>
             </ListItemContent>
             <ListItemContent>
               <div>
-                {receipt.price}
+                {toCurrency(this.state.receipt.price)}
               </div>
             </ListItemContent>
           </ListItem>

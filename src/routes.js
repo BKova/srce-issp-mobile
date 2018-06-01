@@ -1,8 +1,8 @@
-import Details from './components/Details.jsx';
+import Details from './components/details/details.jsx';
 
 export default [
-    {
-        path: '/details/:index',
-        component: Details,
-    }
+  {
+    path: '/details/:index',
+    component: Details,
+  },
 ];
